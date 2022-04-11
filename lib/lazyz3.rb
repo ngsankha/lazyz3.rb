@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
-require_relative "lazyz3/version"
+require "ast"
 
 module LazyZ3
   class Error < StandardError; end
-  # Your code goes here...
 end
+
+def s(kind, *children)
+  LazyZ3::Z3Node.new(kind, children)
+end
+
+require_relative "lazyz3/version"
+require_relative "lazyz3/extensions"

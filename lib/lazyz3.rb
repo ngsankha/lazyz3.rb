@@ -12,3 +12,4 @@ end
 
 require_relative "lazyz3/version"
 require_relative "lazyz3/extensions"
+require_relative "lazyz3/evaluator"

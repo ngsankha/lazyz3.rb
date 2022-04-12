@@ -97,6 +97,22 @@ module LazyZ3
         super(rhs)
       end
     end
+
+    def &(rhs)
+      if rhs.is_a?(Z3Node)
+        s(:send, :&, s(:const, self), rhs)
+      else
+        super(rhs)
+      end
+    end
+
+    def |(rhs)
+      if rhs.is_a?(Z3Node)
+        s(:send, :|, s(:const, self), rhs)
+      else
+        super(rhs)
+      end
+    end
   end
 
   def self.var_int(name)
@@ -206,6 +222,30 @@ module LazyZ3
       else
         raise LazyZ3::Error, "unhandled type"
       end
+    end
+
+    def &(rhs)
+      if rhs.is_a?(Z3Node)
+        s(:send, :&, self, rhs)
+      elsif rhs.is_a?(Integer) || rhs.bool?
+        s(:send, :&, self, s(:const, rhs))
+      else
+        raise LazyZ3::Error, "unhandled type"
+      end
+    end
+
+    def |(rhs)
+      if rhs.is_a?(Z3Node)
+        s(:send, :|, self, rhs)
+      elsif rhs.is_a?(Integer) || rhs.bool?
+        s(:send, :|, self, s(:const, rhs))
+      else
+        raise LazyZ3::Error, "unhandled type"
+      end
+    end
+
+    def !
+      s(:send, :!, self)
     end
   end
 end

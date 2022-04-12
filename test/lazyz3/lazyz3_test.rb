@@ -118,4 +118,35 @@ class LazyZ3::LazyZ3Test < Minitest::Test
     assert_equal (x >= 5).to_s, s(:send, :">=", x, s(:const, 5)).to_s
     assert_equal (x >= x).to_s, s(:send, :">=", x, x).to_s
   end
+
+  def test_symbolic_bool_and
+    x = LazyZ3::var_int(:x)
+    assert_equal (true & x).to_s, s(:send, :"&", s(:const, true), x).to_s
+    assert_equal (x & false).to_s, s(:send, :"&", x, s(:const, false)).to_s
+    assert_equal (x & x).to_s, s(:send, :"&", x, x).to_s
+  end
+
+  def test_symbolic_bool_or
+    x = LazyZ3::var_int(:x)
+    assert_equal (true | x).to_s, s(:send, :"|", s(:const, true), x).to_s
+    assert_equal (x | false).to_s, s(:send, :"|", x, s(:const, false)).to_s
+    assert_equal (x | x).to_s, s(:send, :"|", x, x).to_s
+  end
+
+  def test_symbolic_bool_not
+    x = LazyZ3::var_int(:x)
+    assert_equal (!x).to_s, s(:send, :!, x).to_s
+  end
+
+  def test_unsat
+    x = LazyZ3::var_bool(:x)
+    expr = x & (!x)
+    refute LazyZ3::solve(expr)
+  end
+
+  def test_valid
+    x = LazyZ3::var_int(:x)
+    expr = ((x - x) == 0)
+    assert LazyZ3::solve(expr)
+  end
 end

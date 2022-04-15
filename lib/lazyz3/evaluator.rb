@@ -4,7 +4,7 @@ module LazyZ3
   class Evaluator
     def solve(expr)
       solver = Z3::Solver.new
-      solver.assert(eval(expr))
+      solver.assert(eval(expr, {}))
       result = solver.satisfiable?
       if result
         @model = solver.model
@@ -13,7 +13,7 @@ module LazyZ3
     end
 
     private
-    def eval(expr)
+    def eval(expr, env)
       if expr.is_a?(Integer) || expr.bool?
         expr
       elsif expr.is_a? Z3Node
@@ -21,37 +21,50 @@ module LazyZ3
         when :const
           expr.children[0]
         when :var_int
-          Z3.Int(expr.children[0].to_s)
+          var_name = expr.children[0].to_s
+          if env.key? var_name
+            env[var_name]
+          else
+            var = Z3.Int(var_name)
+            env[var_name] = var
+            var
+          end
         when :var_bool
-          Z3.Bool(expr.children[0].to_s)
+          if env.key? var_name
+            env[var_name]
+          else
+            var = Z3.Bool(var_name)
+            env[var_name] = var
+            var
+          end
         when :send
           case expr.children[0]
           when :+
-            eval(expr.children[1]) + eval(expr.children[2])
+            eval(expr.children[1], env) + eval(expr.children[2], env)
           when :-
-            eval(expr.children[1]) - eval(expr.children[2])
+            eval(expr.children[1], env) - eval(expr.children[2], env)
           when :*
-            eval(expr.children[1]) * eval(expr.children[2])
+            eval(expr.children[1], env) * eval(expr.children[2], env)
           when :/
-            eval(expr.children[1]) / eval(expr.children[2])
+            eval(expr.children[1], env) / eval(expr.children[2], env)
           when :==
-            eval(expr.children[1]) == eval(expr.children[2])
+            eval(expr.children[1], env) == eval(expr.children[2], env)
           when :!=
-            eval(expr.children[1]) != eval(expr.children[2])
+            eval(expr.children[1], env) != eval(expr.children[2], env)
           when :<
-            eval(expr.children[1]) < eval(expr.children[2])
+            eval(expr.children[1], env) < eval(expr.children[2], env)
           when :>
-            eval(expr.children[1]) > eval(expr.children[2])
+            eval(expr.children[1], env) > eval(expr.children[2], env)
           when :<=
-            eval(expr.children[1]) <= eval(expr.children[2])
+            eval(expr.children[1], env) <= eval(expr.children[2], env)
           when :>=
-            eval(expr.children[1]) >= eval(expr.children[2])
+            eval(expr.children[1], env) >= eval(expr.children[2], env)
           when :&
-            eval(expr.children[1]) & eval(expr.children[2])
+            eval(expr.children[1], env) & eval(expr.children[2], env)
           when :|
-            eval(expr.children[1]) | eval(expr.children[2])
+            eval(expr.children[1], env) | eval(expr.children[2], env)
           when :!
-            !eval(expr.children[1])
+            !eval(expr.children[1], env)
           else
             raise LazyZ3::Error, "no known mapping to Z3 for #{expr.children[1]}"
           end

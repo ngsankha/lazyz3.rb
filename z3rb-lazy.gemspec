@@ -26,10 +26,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  gem "rake", "~> 13.0"
-  gem "minitest", "~> 5.0"
-  gem "z3", "~> 0.0.20220320"
-  gem "ast", "~> 2.4"
+  spec.add_dependency "rake", "~> 13.0"
+  spec.add_dependency "minitest", "~> 5.0"
+  spec.add_dependency "z3", "~> 0.0.20220320"
+  spec.add_dependency "ast", "~> 2.4"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html

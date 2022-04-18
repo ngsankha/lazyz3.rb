@@ -2,10 +2,20 @@ PATH
   remote: .
   specs:
     lazyz3 (0.1.0)
+      ast (~> 2.4)
+      minitest (~> 5.0)
+      rake (~> 13.0)
+      z3 (~> 0.0.20220320)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    ast (2.4.2)
+    ffi (1.15.5)
+    minitest (5.15.0)
+    rake (13.0.6)
+    z3 (0.0.20220320)
+      ffi (~> 1.9)
 
 PLATFORMS
   x86_64-darwin-19

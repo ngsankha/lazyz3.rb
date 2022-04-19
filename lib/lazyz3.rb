@@ -6,7 +6,7 @@ module LazyZ3
   class Error < StandardError; end
 end
 
-def s(kind, *children)
+def ss(kind, *children)
   LazyZ3::Z3Node.new(kind, children)
 end
 

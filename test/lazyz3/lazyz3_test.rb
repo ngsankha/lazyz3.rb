@@ -42,100 +42,100 @@ class LazyZ3::LazyZ3Test < Minitest::Test
   end
 
   def test_bool_var
-    assert_equal LazyZ3::var_bool(:x), s(:var_bool, :x)
+    assert_equal LazyZ3::var_bool(:x), ss(:var_bool, :x)
   end
 
   def test_int_var
-    assert_equal LazyZ3::var_int(:x), s(:var_int, :x)
+    assert_equal LazyZ3::var_int(:x), ss(:var_int, :x)
   end
 
   def test_symbolic_int_add
     x = LazyZ3::var_int(:x)
-    assert_equal (5 + x).to_s, s(:send, :+, s(:const, 5), x).to_s
-    assert_equal (x + 5).to_s, s(:send, :+, x, s(:const, 5)).to_s
-    assert_equal (x + x).to_s, s(:send, :+, x, x).to_s
+    assert_equal (5 + x).to_s, ss(:send, :+, ss(:const, 5), x).to_s
+    assert_equal (x + 5).to_s, ss(:send, :+, x, ss(:const, 5)).to_s
+    assert_equal (x + x).to_s, ss(:send, :+, x, x).to_s
   end
 
   def test_symbolic_int_sub
     x = LazyZ3::var_int(:x)
-    assert_equal (5 - x).to_s, s(:send, :-, s(:const, 5), x).to_s
-    assert_equal (x - 5).to_s, s(:send, :-, x, s(:const, 5)).to_s
-    assert_equal (x - x).to_s, s(:send, :-, x, x).to_s
+    assert_equal (5 - x).to_s, ss(:send, :-, ss(:const, 5), x).to_s
+    assert_equal (x - 5).to_s, ss(:send, :-, x, ss(:const, 5)).to_s
+    assert_equal (x - x).to_s, ss(:send, :-, x, x).to_s
   end
 
   def test_symbolic_int_mul
     x = LazyZ3::var_int(:x)
-    assert_equal (5 * x).to_s, s(:send, :*, s(:const, 5), x).to_s
-    assert_equal (x * 5).to_s, s(:send, :*, x, s(:const, 5)).to_s
-    assert_equal (x * x).to_s, s(:send, :*, x, x).to_s
+    assert_equal (5 * x).to_s, ss(:send, :*, ss(:const, 5), x).to_s
+    assert_equal (x * 5).to_s, ss(:send, :*, x, ss(:const, 5)).to_s
+    assert_equal (x * x).to_s, ss(:send, :*, x, x).to_s
   end
 
   def test_symbolic_int_div
     x = LazyZ3::var_int(:x)
-    assert_equal (5 / x).to_s, s(:send, :"/", s(:const, 5), x).to_s
-    assert_equal (x / 5).to_s, s(:send, :"/", x, s(:const, 5)).to_s
-    assert_equal (x / x).to_s, s(:send, :"/", x, x).to_s
+    assert_equal (5 / x).to_s, ss(:send, :"/", ss(:const, 5), x).to_s
+    assert_equal (x / 5).to_s, ss(:send, :"/", x, ss(:const, 5)).to_s
+    assert_equal (x / x).to_s, ss(:send, :"/", x, x).to_s
   end
 
   def test_symbolic_int_eql
     x = LazyZ3::var_int(:x)
-    assert_equal (5 == x).to_s, s(:send, :"==", s(:const, 5), x).to_s
-    assert_equal (x == 5).to_s, s(:send, :"==", x, s(:const, 5)).to_s
-    assert_equal (x == x).to_s, s(:send, :"==", x, x).to_s
+    assert_equal (5 == x).to_s, ss(:send, :"==", ss(:const, 5), x).to_s
+    assert_equal (x == 5).to_s, ss(:send, :"==", x, ss(:const, 5)).to_s
+    assert_equal (x == x).to_s, ss(:send, :"==", x, x).to_s
   end
 
   def test_symbolic_int_neq
     x = LazyZ3::var_int(:x)
-    assert_equal (5 != x).to_s, s(:send, :"!=", s(:const, 5), x).to_s
-    assert_equal (x != 5).to_s, s(:send, :"!=", x, s(:const, 5)).to_s
-    assert_equal (x != x).to_s, s(:send, :"!=", x, x).to_s
+    assert_equal (5 != x).to_s, ss(:send, :"!=", ss(:const, 5), x).to_s
+    assert_equal (x != 5).to_s, ss(:send, :"!=", x, ss(:const, 5)).to_s
+    assert_equal (x != x).to_s, ss(:send, :"!=", x, x).to_s
   end
 
   def test_symbolic_int_lt
     x = LazyZ3::var_int(:x)
-    assert_equal (5 < x).to_s, s(:send, :"<", s(:const, 5), x).to_s
-    assert_equal (x < 5).to_s, s(:send, :"<", x, s(:const, 5)).to_s
-    assert_equal (x < x).to_s, s(:send, :"<", x, x).to_s
+    assert_equal (5 < x).to_s, ss(:send, :"<", ss(:const, 5), x).to_s
+    assert_equal (x < 5).to_s, ss(:send, :"<", x, ss(:const, 5)).to_s
+    assert_equal (x < x).to_s, ss(:send, :"<", x, x).to_s
   end
 
   def test_symbolic_int_gt
     x = LazyZ3::var_int(:x)
-    assert_equal (5 > x).to_s, s(:send, :">", s(:const, 5), x).to_s
-    assert_equal (x > 5).to_s, s(:send, :">", x, s(:const, 5)).to_s
-    assert_equal (x > x).to_s, s(:send, :">", x, x).to_s
+    assert_equal (5 > x).to_s, ss(:send, :">", ss(:const, 5), x).to_s
+    assert_equal (x > 5).to_s, ss(:send, :">", x, ss(:const, 5)).to_s
+    assert_equal (x > x).to_s, ss(:send, :">", x, x).to_s
   end
 
   def test_symbolic_int_leq
     x = LazyZ3::var_int(:x)
-    assert_equal (5 <= x).to_s, s(:send, :"<=", s(:const, 5), x).to_s
-    assert_equal (x <= 5).to_s, s(:send, :"<=", x, s(:const, 5)).to_s
-    assert_equal (x <= x).to_s, s(:send, :"<=", x, x).to_s
+    assert_equal (5 <= x).to_s, ss(:send, :"<=", ss(:const, 5), x).to_s
+    assert_equal (x <= 5).to_s, ss(:send, :"<=", x, ss(:const, 5)).to_s
+    assert_equal (x <= x).to_s, ss(:send, :"<=", x, x).to_s
   end
 
   def test_symbolic_int_geq
     x = LazyZ3::var_int(:x)
-    assert_equal (5 >= x).to_s, s(:send, :">=", s(:const, 5), x).to_s
-    assert_equal (x >= 5).to_s, s(:send, :">=", x, s(:const, 5)).to_s
-    assert_equal (x >= x).to_s, s(:send, :">=", x, x).to_s
+    assert_equal (5 >= x).to_s, ss(:send, :">=", ss(:const, 5), x).to_s
+    assert_equal (x >= 5).to_s, ss(:send, :">=", x, ss(:const, 5)).to_s
+    assert_equal (x >= x).to_s, ss(:send, :">=", x, x).to_s
   end
 
   def test_symbolic_bool_and
     x = LazyZ3::var_int(:x)
-    assert_equal (true & x).to_s, s(:send, :"&", s(:const, true), x).to_s
-    assert_equal (x & false).to_s, s(:send, :"&", x, s(:const, false)).to_s
-    assert_equal (x & x).to_s, s(:send, :"&", x, x).to_s
+    assert_equal (true & x).to_s, ss(:send, :"&", ss(:const, true), x).to_s
+    assert_equal (x & false).to_s, ss(:send, :"&", x, ss(:const, false)).to_s
+    assert_equal (x & x).to_s, ss(:send, :"&", x, x).to_s
   end
 
   def test_symbolic_bool_or
     x = LazyZ3::var_int(:x)
-    assert_equal (true | x).to_s, s(:send, :"|", s(:const, true), x).to_s
-    assert_equal (x | false).to_s, s(:send, :"|", x, s(:const, false)).to_s
-    assert_equal (x | x).to_s, s(:send, :"|", x, x).to_s
+    assert_equal (true | x).to_s, ss(:send, :"|", ss(:const, true), x).to_s
+    assert_equal (x | false).to_s, ss(:send, :"|", x, ss(:const, false)).to_s
+    assert_equal (x | x).to_s, ss(:send, :"|", x, x).to_s
   end
 
   def test_symbolic_bool_not
     x = LazyZ3::var_int(:x)
-    assert_equal (!x).to_s, s(:send, :!, x).to_s
+    assert_equal (!x).to_s, ss(:send, :!, x).to_s
   end
 
   def test_unsat

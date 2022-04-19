@@ -2,7 +2,7 @@ module LazyZ3
   module Int
     def +(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :+, s(:const, self), rhs)
+        ss(:send, :+, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -10,7 +10,7 @@ module LazyZ3
 
     def -(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :-, s(:const, self), rhs)
+        ss(:send, :-, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -18,7 +18,7 @@ module LazyZ3
 
     def *(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :*, s(:const, self), rhs)
+        ss(:send, :*, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -26,7 +26,7 @@ module LazyZ3
 
     def /(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :/, s(:const, self), rhs)
+        ss(:send, :/, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -34,7 +34,7 @@ module LazyZ3
 
     def ==(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :==, s(:const, self), rhs)
+        ss(:send, :==, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -42,7 +42,7 @@ module LazyZ3
 
     def !=(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :!=, s(:const, self), rhs)
+        ss(:send, :!=, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -50,7 +50,7 @@ module LazyZ3
 
     def <(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :<, s(:const, self), rhs)
+        ss(:send, :<, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -58,7 +58,7 @@ module LazyZ3
 
     def >(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :>, s(:const, self), rhs)
+        ss(:send, :>, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -66,7 +66,7 @@ module LazyZ3
 
     def <=(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :<=, s(:const, self), rhs)
+        ss(:send, :<=, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -74,7 +74,7 @@ module LazyZ3
 
     def >=(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :>=, s(:const, self), rhs)
+        ss(:send, :>=, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -84,7 +84,7 @@ module LazyZ3
   module Bool
     def ==(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :==, s(:const, self), rhs)
+        ss(:send, :==, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -92,7 +92,7 @@ module LazyZ3
 
     def !=(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :!=, s(:const, self), rhs)
+        ss(:send, :!=, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -100,7 +100,7 @@ module LazyZ3
 
     def &(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :&, s(:const, self), rhs)
+        ss(:send, :&, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -108,7 +108,7 @@ module LazyZ3
 
     def |(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :|, s(:const, self), rhs)
+        ss(:send, :|, ss(:const, self), rhs)
       else
         super(rhs)
       end
@@ -116,19 +116,19 @@ module LazyZ3
   end
 
   def self.var_int(name)
-    s(:var_int, name)
+    ss(:var_int, name)
   end
 
   def self.var_bool(name)
-    s(:var_bool, name)
+    ss(:var_bool, name)
   end
 
   class Z3Node < ::AST::Node
     def +(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :+, self, rhs)
+        ss(:send, :+, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :+, self, s(:const, rhs))
+        ss(:send, :+, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -136,9 +136,9 @@ module LazyZ3
 
     def -(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :-, self, rhs)
+        ss(:send, :-, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :-, self, s(:const, rhs))
+        ss(:send, :-, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -146,9 +146,9 @@ module LazyZ3
 
     def *(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :*, self, rhs)
+        ss(:send, :*, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :*, self, s(:const, rhs))
+        ss(:send, :*, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -156,9 +156,9 @@ module LazyZ3
 
     def /(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :/, self, rhs)
+        ss(:send, :/, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :/, self, s(:const, rhs))
+        ss(:send, :/, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -166,9 +166,9 @@ module LazyZ3
 
     def ==(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :==, self, rhs)
+        ss(:send, :==, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :==, self, s(:const, rhs))
+        ss(:send, :==, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -176,9 +176,9 @@ module LazyZ3
 
     def !=(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :!=, self, rhs)
+        ss(:send, :!=, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :!=, self, s(:const, rhs))
+        ss(:send, :!=, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -186,9 +186,9 @@ module LazyZ3
 
     def <(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :<, self, rhs)
+        ss(:send, :<, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :<, self, s(:const, rhs))
+        ss(:send, :<, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -196,9 +196,9 @@ module LazyZ3
 
     def >(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :>, self, rhs)
+        ss(:send, :>, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :>, self, s(:const, rhs))
+        ss(:send, :>, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -206,9 +206,9 @@ module LazyZ3
 
     def <=(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :<=, self, rhs)
+        ss(:send, :<=, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :<=, self, s(:const, rhs))
+        ss(:send, :<=, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -216,9 +216,9 @@ module LazyZ3
 
     def >=(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :>=, self, rhs)
+        ss(:send, :>=, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :>=, self, s(:const, rhs))
+        ss(:send, :>=, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -226,9 +226,9 @@ module LazyZ3
 
     def &(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :&, self, rhs)
+        ss(:send, :&, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :&, self, s(:const, rhs))
+        ss(:send, :&, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
@@ -236,16 +236,16 @@ module LazyZ3
 
     def |(rhs)
       if rhs.is_a?(Z3Node)
-        s(:send, :|, self, rhs)
+        ss(:send, :|, self, rhs)
       elsif rhs.is_a?(Integer) || rhs.bool?
-        s(:send, :|, self, s(:const, rhs))
+        ss(:send, :|, self, ss(:const, rhs))
       else
         raise LazyZ3::Error, "unhandled type"
       end
     end
 
     def !
-      s(:send, :!, self)
+      ss(:send, :!, self)
     end
   end
 end

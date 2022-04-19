@@ -2,9 +2,12 @@ require 'z3'
 
 module LazyZ3
   class Evaluator
+    attr_reader :model
+
     def solve(expr)
       solver = Z3::Solver.new
-      solver.assert(eval(expr, {}))
+      z3_expr = eval(expr, {})
+      solver.assert(z3_expr)
       result = solver.satisfiable?
       if result
         @model = solver.model

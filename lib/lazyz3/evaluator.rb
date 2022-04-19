@@ -1,16 +1,27 @@
-require 'z3'
+require 'pycall'
 
 module LazyZ3
   class Evaluator
     attr_reader :model
+    @@z3 = PyCall.import_module("z3")
 
     def solve(expr)
-      solver = Z3::Solver.new
+      solver = @@z3.Solver.new
+      @typemap = {}
       z3_expr = eval(expr, {})
-      solver.assert(z3_expr)
-      result = solver.satisfiable?
+      solver.add(z3_expr)
+      result = (solver.check == @@z3.sat)
       if result
-        @model = solver.model
+        @model = {}
+        solver.model.decls.each { |d|
+          if @typemap[d.to_s] == :int
+            @model[d.to_s] = solver.model[d].as_long
+          elsif @typemap[d.to_s] == :bool
+            @model[d.to_s] = solver.model[d]
+          else
+            raise LazyZ3::Error, "unknown sort in model #{d.to_s}"
+          end
+        }
       end
       result
     end
@@ -28,15 +39,18 @@ module LazyZ3
           if env.key? var_name
             env[var_name]
           else
-            var = Z3.Int(var_name)
+            var = @@z3.Int(var_name)
+            @typemap[var_name] = :int
             env[var_name] = var
             var
           end
         when :var_bool
+          var_name = expr.children[0].to_s
           if env.key? var_name
             env[var_name]
           else
-            var = Z3.Bool(var_name)
+            var = @@z3.Bool(var_name)
+            @typemap[var_name] = :bool
             env[var_name] = var
             var
           end
@@ -63,11 +77,11 @@ module LazyZ3
           when :>=
             eval(expr.children[1], env) >= eval(expr.children[2], env)
           when :&
-            eval(expr.children[1], env) & eval(expr.children[2], env)
+            @@z3.And(eval(expr.children[1], env), eval(expr.children[2], env))
           when :|
-            eval(expr.children[1], env) | eval(expr.children[2], env)
+            @@z3.Or(eval(expr.children[1], env), eval(expr.children[2], env))
           when :!
-            !eval(expr.children[1], env)
+            @@z3.Not(eval(expr.children[1], env))
           else
             raise LazyZ3::Error, "no known mapping to Z3 for #{expr.children[1]}"
           end

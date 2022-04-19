@@ -146,7 +146,17 @@ class LazyZ3::LazyZ3Test < Minitest::Test
 
   def test_valid
     x = LazyZ3::var_int(:x)
-    expr = ((x - x) == 0)
-    assert LazyZ3::solve(expr)
+    expr = ((x - 5) == 0)
+    e = LazyZ3::Evaluator.new
+    assert e.solve(expr)
+    assert_equal e.model["x"], 5
+  end
+
+  def test_valid_bool
+    x = LazyZ3::var_bool(:x)
+    expr = (!x)
+    e = LazyZ3::Evaluator.new
+    assert e.solve(expr)
+    assert_equal e.model["x"], false
   end
 end

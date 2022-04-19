@@ -28,8 +28,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rake", "~> 13.0"
   spec.add_dependency "minitest", "~> 5.0"
-  spec.add_dependency "z3", "~> 0.0.20220320"
+  # spec.add_dependency "z3", "~> 0.0.20220320"
   spec.add_dependency "ast", "~> 2.4"
+  spec.add_dependency "pycall", "~> 1.4"
+  spec.add_dependency "warning", "~> 1.2"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html

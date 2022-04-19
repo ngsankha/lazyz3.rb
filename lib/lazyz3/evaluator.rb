@@ -33,6 +33,7 @@ module LazyZ3
             var
           end
         when :var_bool
+          var_name = expr.children[0].to_s
           if env.key? var_name
             env[var_name]
           else

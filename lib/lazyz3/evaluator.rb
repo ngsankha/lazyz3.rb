@@ -10,7 +10,10 @@ module LazyZ3
       solver.assert(z3_expr)
       result = solver.satisfiable?
       if result
-        @model = solver.model
+        @model = {}
+        solver.model.map { |k, _|
+          @model[k.to_s] = solver.model.model_eval(k)
+        }
       end
       result
     end
